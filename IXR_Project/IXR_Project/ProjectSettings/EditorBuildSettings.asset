@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Oculus/SampleFramework/Usage/Passthrough/Scenes/AugmentedObjects.unity
     guid: 9afeada2bbd240b4981cfb6abb525418
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/TestScene/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 2a8d552f9221e1e47b2bfdc9346e3c13, type: 2}
