@@ -7,6 +7,47 @@ namespace Fraktalia.DreamStarGen
     [RequireComponent(typeof(MeshFilter))]
     public class DreamStarGenerator : MonoBehaviour
     {
+        // Sid: update start 11.07
+        private float originalRadius;
+        void Start()
+        {
+            originalRadius = Radius; // Store the original radius value
+            StartCoroutine(ChangeRadiusOverTime()); // Start the Coroutine to change the radius
+        }
+
+        private IEnumerator ChangeRadiusOverTime()
+        {
+            float elapsedTime = 0f;
+            float increaseDuration = 10f;  // duration to increase the radius
+            float steadyDuration = 10f;    // duration to keep the radius steady
+            float decreaseDuration = 10f;  // duration to decrease the radius
+
+            // Increase phase
+            while (elapsedTime < increaseDuration)
+            {
+                Radius = Mathf.Lerp(originalRadius, originalRadius * 2f, elapsedTime / increaseDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // Keep steady phase
+            yield return new WaitForSeconds(steadyDuration);
+
+            // Reset elapsed time for the decrease phase
+            elapsedTime = 0f;
+
+            // Decrease phase
+            while (elapsedTime < decreaseDuration)
+            {
+                Radius = Mathf.Lerp(originalRadius * 2f, originalRadius, elapsedTime / decreaseDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // Set radius back to original at the end
+            Radius = originalRadius;
+        }
+        // Sid: update end 11.07 
 
         public MeshFilter meshfilter;
 
