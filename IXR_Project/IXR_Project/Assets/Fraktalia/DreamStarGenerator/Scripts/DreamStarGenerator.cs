@@ -9,10 +9,13 @@ namespace Fraktalia.DreamStarGen
     {
         // Sid: update start 11.07
         private float originalRadius;
+        private float originalA;
         void Start()
         {
             originalRadius = Radius; // Store the original radius value
+            originalA = a;
             StartCoroutine(ChangeRadiusOverTime()); // Start the Coroutine to change the radius
+            StartCoroutine(ChangeAOverTime());
         }
 
         private IEnumerator ChangeRadiusOverTime()
@@ -48,6 +51,43 @@ namespace Fraktalia.DreamStarGen
             Radius = originalRadius;
         }
         // Sid: update end 11.07 
+        
+        //yuehui added same logic as Sid's updates
+        
+        private IEnumerator ChangeAOverTime()
+        {
+            float elapsedTime = 0f;
+            float increaseDuration = 10000f;  // duration to increase the radius
+            float steadyDuration = 10000f;    // duration to keep the radius steady
+            float decreaseDuration = 10000f;  // duration to decrease the radius
+
+            // Increase phase
+            while (elapsedTime < increaseDuration)
+            {
+                a = Mathf.Lerp(originalA, originalA * 2f, elapsedTime / increaseDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // Keep steady phase
+            yield return new WaitForSeconds(steadyDuration);
+
+            // Reset elapsed time for the decrease phase
+            elapsedTime = 0f;
+
+            // Decrease phase
+            while (elapsedTime < decreaseDuration)
+            {
+                a = Mathf.Lerp(originalA * 2f, originalA, elapsedTime / decreaseDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // Set radius back to original at the end
+            a = originalA;
+        }
+        
+        //yuehui updates end
 
         public MeshFilter meshfilter;
 
